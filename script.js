@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const undoBtn = document.getElementById('undo-btn');
     const gameOverScreen = document.getElementById('game-over-screen');
     const retryBtn = document.getElementById('retry-btn');
+    const gameOverUndoBtn = document.getElementById('game-over-undo-btn');
     const normalModeBtn = document.getElementById('normal-mode-btn');
     const timeAttackModeBtn = document.getElementById('time-attack-mode-btn');
     const timerContainer = document.getElementById('timer-container');
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let undoCount = 1;
     let previousTiles = [];
     let previousScore = 0;
+    let gameOverUndoUsed = false;
 
     let currentMode = 'normal'; // 'normal' or 'time-attack'
     let timeLeft = 60;
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         score = 0;
         isGameOver = false;
         undoCount = 1;
+        gameOverUndoUsed = false;
         gameOverScreen.classList.add('hidden');
         
         // Create the background grid cells
@@ -183,6 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (tiles.length === gridSize * gridSize && !canMove()){
             isGameOver = true;
             gameOverScreen.classList.remove('hidden');
+            
+            if (gameOverUndoUsed) {
+                gameOverUndoBtn.classList.add('hidden');
+            } else {
+                gameOverUndoBtn.classList.remove('hidden');
+            }
+
             stopTimer();
             if (score > bestScore) {
                 bestScore = score;
@@ -358,21 +368,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return element;
     }
 
-    function undo() {
-        if (undoCount > 0 && !isGameOver) {
-            // Remove current tiles from board
-            tiles.forEach(t => t.element.remove());
-
-            tiles = JSON.parse(JSON.stringify(previousTiles)); // Deep copy
-            tiles.forEach(tile => {
-                tile.element = createTileElement(tile.r, tile.c, tile.value);
-                gameBoard.appendChild(tile.element);
-            });
-
-            score = previousScore;
+    function undo(isFromGameOver = false) {
+        if (isFromGameOver) {
+            if (gameOverUndoUsed) return; // Already used
+            gameOverUndoUsed = true;
+        } else {
+            if (undoCount <= 0 || isGameOver) return; // Can't undo
             undoCount--;
-            updateScore();
-            updateUndoButton();
+        }
+
+        // Restore previous state
+        tiles.forEach(t => t.element.remove());
+        tiles = JSON.parse(JSON.stringify(previousTiles));
+        tiles.forEach(tile => {
+            tile.element = createTileElement(tile.r, tile.c, tile.value);
+            gameBoard.appendChild(tile.element);
+        });
+
+        score = previousScore;
+        updateScore();
+        updateUndoButton();
+
+        // If we were in game over, resume the game
+        if (isGameOver) {
+            isGameOver = false;
+            gameOverScreen.classList.add('hidden');
         }
     }
 
@@ -417,7 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => handleKeyPress(e));
     newGameBtn.addEventListener('click', startGame);
     retryBtn.addEventListener('click', startGame);
-    undoBtn.addEventListener('click', undo);
+    undoBtn.addEventListener('click', () => undo(false));
+    gameOverUndoBtn.addEventListener('click', () => undo(true));
     normalModeBtn.addEventListener('click', () => selectMode('normal'));
     timeAttackModeBtn.addEventListener('click', () => selectMode('time-attack'));
 

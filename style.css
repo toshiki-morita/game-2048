@@ -180,6 +180,26 @@ h1 {
     margin-bottom: 20px;
 }
 
+.game-over-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+#game-over-undo-btn {
+    background-color: #776e65;
+    color: #f9f6f2;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#game-over-undo-btn:hover {
+    background-color: #8f7a66;
+}
+
 .hidden {
     display: none !important;
 }
