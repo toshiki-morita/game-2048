@@ -1,0 +1,212 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #faf8ef;
+    color: #776e65;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+    color: #776e65;
+}
+
+.scores-container {
+    display: flex;
+    gap: 8px;
+}
+
+.score-box, .best-box {
+    background-color: #bbada0;
+    color: #f9f6f2;
+    padding: 15px 25px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.score-box div, .best-box div {
+    font-size: 25px;
+    color: white;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#new-game-btn, #undo-btn, #retry-btn {
+    background-color: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#new-game-btn:hover, #undo-btn:hover, #retry-btn:hover {
+    background-color: #9f8b77;
+}
+
+#undo-btn:disabled {
+    background-color: #c8bdae;
+    cursor: not-allowed;
+}
+
+#game-board-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#game-board {
+    position: relative;
+    background-color: #bbada0;
+    border-radius: 6px;
+    padding: 15px;
+    width: 460px;
+    height: 460px;
+    margin: 0 auto;
+}
+
+.grid-cell {
+    width: 100px;
+    height: 100px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    float: left;
+    border-radius: 3px;
+    background: rgba(238, 228, 218, 0.35);
+}
+
+.tile {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 55px;
+    font-weight: bold;
+    color: #776e65;
+    background-color: #eee4da; /* Default for new tiles */
+    transition: left 100ms ease-in-out, top 100ms ease-in-out;
+    animation-duration: 200ms;
+    animation-timing-function: ease;
+}
+
+.tile-new {
+    animation-name: appear;
+}
+
+.tile-merged {
+    animation-name: pop;
+}
+
+@keyframes appear {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.tile[data-value="2"] { background-color: #eee4da; color: #776e65; }
+.tile[data-value="4"] { background-color: #ede0c8; color: #776e65; }
+.tile[data-value="8"] { background-color: #f2b179; color: #f9f6f2; }
+.tile[data-value="16"] { background-color: #f59563; color: #f9f6f2; }
+.tile[data-value="32"] { background-color: #f67c5f; color: #f9f6f2; }
+.tile[data-value="64"] { background-color: #f65e3b; color: #f9f6f2; }
+.tile[data-value="128"] { background-color: #edcf72; color: #f9f6f2; font-size: 45px; }
+.tile[data-value="256"] { background-color: #edcc61; color: #f9f6f2; font-size: 45px; }
+.tile[data-value="512"] { background-color: #edc850; color: #f9f6f2; font-size: 45px; }
+.tile[data-value="1024"] { background-color: #edc53f; color: #f9f6f2; font-size: 35px; }
+.tile[data-value="2048"] { background-color: #edc22e; color: #f9f6f2; font-size: 35px; }
+
+#game-over-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(238, 228, 218, 0.73);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#game-over-screen h2 {
+    font-size: 60px;
+    color: #776e65;
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.mode-selection {
+    margin-bottom: 10px;
+}
+
+.mode-selection button {
+    background-color: #cdc1b4;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.mode-selection button.active {
+    background-color: #8f7a66;
+    color: #f9f6f2;
+}
+
+#timer-container {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.game-intro {
+    font-size: 18px;
+    color: #776e65;
+}

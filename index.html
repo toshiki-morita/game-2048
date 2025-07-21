@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="heading">
+            <h1>2048</h1>
+            <div class="scores-container">
+                <div class="score-box">スコア<div id="score">0</div></div>
+                <div class="best-box">ベスト<div id="best-score">0</div></div>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="new-game-btn">ニューゲーム</button>
+            <button id="undo-btn">やり直し (1)</button>
+        </div>
+
+        <div id="game-board-container">
+            <div id="game-board"></div>
+            <div id="game-over-screen" class="hidden">
+                <h2>ゲームオーバー</h2>
+                <button id="retry-btn">もう一度</button>
+            </div>
+        </div>
+
+        <div class="mode-selection">
+            <p>モード選択:</p>
+            <button id="normal-mode-btn" class="active">ノーマル</button>
+            <button id="time-attack-mode-btn">タイムアタック</button>
+        </div>
+        <div id="timer-container" class="hidden">
+            <p>残り時間: <span id="timer">60</span>秒</p>
+        </div>
+
+        <p class="game-intro">矢印キーでタイルを動かして、同じ数字を合体させよう！</p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
